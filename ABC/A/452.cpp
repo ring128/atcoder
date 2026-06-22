@@ -11,6 +11,6 @@ int main(){
         {1, 7}, {3, 3}, {5, 5}, {7, 7}, {9, 9}
     };
 
-    if(ok.contains(a)) cout << "Yes\n";
+    if(ok.count(a)) cout << "Yes\n";
     else cout << "No\n";
 }
