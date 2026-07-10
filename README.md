@@ -7,3 +7,8 @@ AtCoderの解答コードをまとめたリポジトリです。
 
 ## ファイル名構成
 コンテスト名/難易度/コンテスト該当回
+
+## Rating / Highest Performance
+
+Rating: 237（灰）
+Highest Performance: 809
