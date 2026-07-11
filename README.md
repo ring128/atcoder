@@ -10,4 +10,4 @@ AtCoderの解答コードをまとめたリポジトリです。
 
 ## Rating / Highest Performance
 
-Rating: 237（灰） / Highest Performance: 809
+Rating: 307（灰） / Highest Performance: 809
