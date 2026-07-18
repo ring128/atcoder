@@ -42,7 +42,8 @@ int main(){
     rep(i, 0, N) ci(w[i], v[i]);
     int sum = accumulate(all(v), 0);
 
-    vector<ll> dp(sum+1, INFINITY);
+    vector<ll> dp(sum+1, 1LL << 60);
+    dp[0] = 0;
 
     rep(i, 0, N){
         for(int val = sum; val >= v[i]; --val){
@@ -52,7 +53,7 @@ int main(){
 
     int ans{};
     
-    for(int val = sum; val--;){
+    for(int val = sum; val >= 0; val--){
         if(dp[val] <= W){
             ans = val;
             break;
