@@ -34,19 +34,35 @@ void ci(T&... x){
 
 int main(){
     ios::sync_with_stdio(false);
-    int Q; ci(Q);
-    multiset<int> m;
+    int N,M; ci(N,M);
+    vector<int> A(N);
+    vector<int> B(N-1);
+    int ansa{};
+    int ansb = 1;
+    vector<bool> tf(N-1);
 
-    rep(i, 0, Q){
-        int A; ci(A);
-        if(A == 1){
-            int B; ci(B);
-            m.insert(B);
-        }
+    rep(i, 0, N) ci(A[i]);
+    rep(i, 0, N-1) ci(B[i]);
 
-        else if(A == 2){
-            cout << *m.begin() << '\n';
-            m.erase(m.begin());
+    rep(i, 0, N-1){
+        if((A[i] + A[i+1]) % M != B[i] % M){
+            tf[i] = true;
         }
     }
+    rep(i, 0, N-1){
+        if(tf[i]){
+            tf[i] = !tf[i];
+            if(i != N-2) tf[i+1] = !tf[i+1];
+            ansa++;
+        }
+    }
+
+    A[0] = (A[0] + 1) % M;
+    rep(i, 0, N-1){
+        if((A[i] + A[i+1]) % M != B[i] % M){
+            A[i+1] = (A[i+1] + 1) % M;
+            ansb++;
+        }
+    }
+    cout << min(ansa, ansb) << '\n';
 }

@@ -34,19 +34,14 @@ void ci(T&... x){
 
 int main(){
     ios::sync_with_stdio(false);
-    int Q; ci(Q);
-    multiset<int> m;
-
-    rep(i, 0, Q){
-        int A; ci(A);
-        if(A == 1){
-            int B; ci(B);
-            m.insert(B);
-        }
-
-        else if(A == 2){
-            cout << *m.begin() << '\n';
-            m.erase(m.begin());
-        }
+    int S, A, B, X; ci(S,A,B,X);
+    int ans{};
+    ans += S * A * (X / (A + B));
+    if(X % (A + B) <= A){
+        ans += X % (A + B) * S;
     }
+    else{
+        ans += S * A;
+    }
+    cout << ans << '\n';
 }

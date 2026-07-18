@@ -34,19 +34,30 @@ void ci(T&... x){
 
 int main(){
     ios::sync_with_stdio(false);
-    int Q; ci(Q);
-    multiset<int> m;
+    int N,W; ci(N,W);
 
-    rep(i, 0, Q){
-        int A; ci(A);
-        if(A == 1){
-            int B; ci(B);
-            m.insert(B);
-        }
+    vector<int> w(N);
+    vector<int> v(N);
 
-        else if(A == 2){
-            cout << *m.begin() << '\n';
-            m.erase(m.begin());
+    rep(i, 0, N) ci(w[i], v[i]);
+    int sum = accumulate(all(v), 0);
+
+    vector<ll> dp(sum+1, INFINITY);
+
+    rep(i, 0, N){
+        for(int val = sum; val >= v[i]; --val){
+            dp[val] = min(dp[val], dp[val - v[i]] + w[i]);
         }
     }
+
+    int ans{};
+    
+    for(int val = sum; val--;){
+        if(dp[val] <= W){
+            ans = val;
+            break;
+        }    
+    }
+
+    cout << ans << '\n';
 }

@@ -34,19 +34,6 @@ void ci(T&... x){
 
 int main(){
     ios::sync_with_stdio(false);
-    int Q; ci(Q);
-    multiset<int> m;
-
-    rep(i, 0, Q){
-        int A; ci(A);
-        if(A == 1){
-            int B; ci(B);
-            m.insert(B);
-        }
-
-        else if(A == 2){
-            cout << *m.begin() << '\n';
-            m.erase(m.begin());
-        }
-    }
+    int H,W; ci(H,W);
+    cout << ((25 * H * H <= W * 10000) ? "Yes\n" : "No\n");
 }

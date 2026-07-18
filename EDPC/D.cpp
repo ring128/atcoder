@@ -34,19 +34,20 @@ void ci(T&... x){
 
 int main(){
     ios::sync_with_stdio(false);
-    int Q; ci(Q);
-    multiset<int> m;
+    int N,W; ci(N,W);
 
-    rep(i, 0, Q){
-        int A; ci(A);
-        if(A == 1){
-            int B; ci(B);
-            m.insert(B);
-        }
+    vector<int> wei(N);
+    vector<int> val(N);
 
-        else if(A == 2){
-            cout << *m.begin() << '\n';
-            m.erase(m.begin());
+    rep(i, 0, N) ci(wei[i], val[i]);
+
+    vector<ll> dp(W+1);
+
+    for(int i = 0; i < N; i++){
+        for(int j = W; j >= wei[i]; j--){
+            dp[j] = max(dp[j], dp[j - wei[i]] + val[i]);
         }
     }
+
+    cout << dp[W] << '\n'; 
 }

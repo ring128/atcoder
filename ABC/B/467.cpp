@@ -34,19 +34,16 @@ void ci(T&... x){
 
 int main(){
     ios::sync_with_stdio(false);
-    int Q; ci(Q);
-    multiset<int> m;
+    int N; ci(N);
+    int sum{};
 
-    rep(i, 0, Q){
-        int A; ci(A);
-        if(A == 1){
-            int B; ci(B);
-            m.insert(B);
-        }
-
-        else if(A == 2){
-            cout << *m.begin() << '\n';
-            m.erase(m.begin());
+    rep(i, 0, N){
+        int A,B; ci(A,B);
+        string S; ci(S);
+        if(S == "keep"){
+            sum += B - A;
         }
     }
+
+    cout << sum << '\n';
 }

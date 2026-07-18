@@ -30,23 +30,27 @@ using Graph = vector<vector<int>>;
 template<class... T>
 void ci(T&... x){
     (cin >> ... >> x);
-}
+}   
 
 int main(){
     ios::sync_with_stdio(false);
-    int Q; ci(Q);
-    multiset<int> m;
+    int N; ci(N);
+    vector<int> A(N, 0);
+    vector<int> B(N, 0);
+    vector<int> C(N, 0);
 
-    rep(i, 0, Q){
-        int A; ci(A);
-        if(A == 1){
-            int B; ci(B);
-            m.insert(B);
-        }
+    rep(i, 0, N) ci(A[i],B[i],C[i]);
 
-        else if(A == 2){
-            cout << *m.begin() << '\n';
-            m.erase(m.begin());
-        }
+    vector<int> adp(N);
+    vector<int> bdp(N);
+    vector<int> cdp(N);
+    adp[0] = A[0]; bdp[0] = B[0]; cdp[0] = C[0]; 
+
+    rep(i, 1, N){
+        adp[i] = max(bdp[i-1], cdp[i-1]) + A[i];
+        bdp[i] = max(adp[i-1], cdp[i-1]) + B[i];
+        cdp[i] = max(adp[i-1], bdp[i-1]) + C[i];
     }
+    
+    cout << max({adp[N-1], bdp[N-1], cdp[N-1]}) << '\n';
 }
