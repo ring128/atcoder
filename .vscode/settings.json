@@ -1,0 +1,10 @@
+{
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.cpp$",
+        "cmd": "g++ -std=c++20 -O2 -Wall -Wextra \"${file}\" -o /tmp/a.out && /tmp/a.out < \"${fileDirname}/in.txt\" > \"${fileDirname}/out.txt\""
+      }
+    ]
+  }
+}
