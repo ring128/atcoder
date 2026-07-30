@@ -1,7 +1,5 @@
 a.out
 *.out
-main
 
 in.txt
 out.txt
-.vscode

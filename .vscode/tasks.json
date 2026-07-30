@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "run cpp",
+      "label": "run main (in.txt -> out.txt)",
       "type": "shell",
-      "command": "g++ -std=c++20 -O2 -Wall -Wextra \"${file}\" -o /tmp/a.out && /tmp/a.out < \"${fileDirname}/in.txt\" > \"${fileDirname}/out.txt\"",
+      "command": "g++ -std=c++20 -O2 -Wall -Wextra \"${workspaceFolder}/main/main.cpp\" -o /tmp/atcoder-main && /tmp/atcoder-main < \"${workspaceFolder}/main/in.txt\" > \"${workspaceFolder}/main/out.txt\"",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -14,7 +14,7 @@
         "clear": false,
         "panel": "shared"
       },
-      "problemMatcher": []
+      "problemMatcher": "$gcc"
     }
   ]
 }

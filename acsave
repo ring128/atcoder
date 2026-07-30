@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ $# -ne 1 ]]; then
+  echo "Usage: acsave ABC/A/000" >&2
+  exit 1
+fi
+
+rel="${1%.cpp}"
+case "$rel" in
+  "" | /* | . | .. | ../* | */../*)
+    echo "Use a relative path such as ABC/A/000." >&2
+    exit 1
+    ;;
+esac
+
+src="$root/main/main.cpp"
+dst="$root/$rel.cpp"
+
+if [[ ! -s "$src" ]]; then
+  echo "main/main.cpp is empty; nothing was saved." >&2
+  exit 1
+fi
+
+if [[ -e "$dst" ]]; then
+  echo "Refusing to overwrite: $dst" >&2
+  exit 1
+fi
+
+mkdir -p "$(dirname "$dst")"
+cp "$src" "$dst"
+: > "$src"
+
+printf 'Saved %s and reset main/main.cpp\n' "${rel}.cpp"
