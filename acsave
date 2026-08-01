@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+script="$(readlink -f "${BASH_SOURCE[0]}")"
+root="$(cd "$(dirname "$script")" && pwd)"
 
 if [[ $# -ne 1 ]]; then
   echo "Usage: acsave ABC/A/000" >&2
