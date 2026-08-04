@@ -15,6 +15,17 @@
         "panel": "shared"
       },
       "problemMatcher": "$gcc"
+    },
+    {
+      "label": "run main tests (Clang)",
+      "type": "shell",
+      "command": "clang++ -std=c++23 -stdlib=libc++ -O2 -Wall -Wextra -pedantic-errors \"${workspaceFolder}/main/main.cpp\" -o /tmp/atcoder-main-clang && /tmp/atcoder-main-clang < \"${workspaceFolder}/main/in.txt\" > \"${workspaceFolder}/main/out.txt\"",
+      "presentation": {
+        "reveal": "always",
+        "clear": false,
+        "panel": "shared"
+      },
+      "problemMatcher": "$gcc"
     }
   ]
 }
