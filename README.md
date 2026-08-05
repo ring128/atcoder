@@ -10,4 +10,4 @@ AtCoderの解答コードをまとめたリポジトリです。
 
 ## Rating / Highest Performance
 
-Rating: 307（灰） / Highest Performance: 809
+Rating: 548（茶） / Highest Performance: 1234
