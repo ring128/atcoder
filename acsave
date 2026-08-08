@@ -18,6 +18,8 @@ case "$rel" in
 esac
 
 src="$root/main/main.cpp"
+input="$root/main/in.txt"
+output="$root/main/out.txt"
 dst="$root/$rel.cpp"
 
 if [[ ! -s "$src" ]]; then
@@ -33,5 +35,7 @@ fi
 mkdir -p "$(dirname "$dst")"
 cp "$src" "$dst"
 : > "$src"
+: > "$input"
+: > "$output"
 
-printf 'Saved %s and reset main/main.cpp\n' "${rel}.cpp"
+printf 'Saved %s and reset main/main.cpp, main/in.txt, and main/out.txt\n' "${rel}.cpp"
