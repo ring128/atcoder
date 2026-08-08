@@ -5,7 +5,8 @@ in.txt
 out.txt
 main.cpp
 
+/main/
+/test/
 /AHC/
 acrun
 acsave
-.gitignore
