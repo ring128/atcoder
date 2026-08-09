@@ -5,6 +5,7 @@ in.txt
 out.txt
 main.cpp
 
+/.vscode/
 /main/
 /test/
 /AHC/
