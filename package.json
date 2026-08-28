@@ -1,0 +1,9 @@
+{
+  "name": "atcoder-solutions",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
