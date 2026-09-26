@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+source=""
+interactive=false
+for arg in "$@"; do
+  if [[ "$arg" == -i ]]; then
+    interactive=true
+  elif [[ -z "$source" ]]; then
+    if [[ -f "$arg" ]]; then
+      source="$(realpath -e -- "$arg")"
+    elif [[ "$arg" != */* ]]; then
+      source="$root/main/main.${arg#.}"
+    else
+      echo "Source not found: $arg" >&2; exit 1
+    fi
+  else
+    echo "Usage: debug [source-file|extension] [-i]" >&2; exit 1
+  fi
+done
+if [[ -z "$source" ]]; then
+  shopt -s nullglob
+  candidates=()
+  for file in "$root"/main/main.*; do
+    [[ -f "$file" && -s "$file" ]] && candidates+=("$file")
+  done
+  if [[ ${#candidates[@]} -ne 1 ]]; then
+    echo "Specify a source file or extension (found ${#candidates[@]} populated main.* files)." >&2; exit 1
+  fi
+  source="${candidates[0]}"
+fi
+[[ -f "$source" && -s "$source" ]] || { echo "Source is missing or empty: $source" >&2; exit 1; }
+extension="${source##*.}"
+run_dir="$(mktemp -d /tmp/atcoder-run.XXXXXX)"
+trap 'rm -rf -- "$run_dir"' EXIT
+binary="$run_dir/main"
+# Optional per-extension Bash runner receives the absolute source path as $1.
+if [[ -f "$root/ac-runners/$extension" ]]; then
+  command=(bash "$root/ac-runners/$extension" "$source")
+else
+  case "$extension" in
+    cpp | cc | cxx) clang++ -std=c++23 -O2 -Wall -Wextra -pedantic-errors "$source" -o "$binary"; command=("$binary") ;;
+    c) clang -std=c17 -O2 -Wall -Wextra "$source" -o "$binary"; command=("$binary") ;;
+    ts | tsx | mts | cts)
+      loader="$root/node_modules/tsx/dist/loader.mjs"
+      [[ -f "$loader" ]] || { echo "Run npm install in the repository root first." >&2; exit 1; }
+      command=(node --import "$loader" "$source") ;;
+    js | mjs | cjs) command=(node "$source") ;;
+    py) command=(python3 "$source") ;;
+    rb) command=(ruby "$source") ;;
+    rs) rustc --edition=2021 -O "$source" -o "$binary"; command=("$binary") ;;
+    go) command=(go run "$source") ;;
+    sh | bash) command=(bash "$source") ;;
+    php) command=(php "$source") ;;
+    pl) command=(perl "$source") ;;
+    lua) command=(lua "$source") ;;
+    *)
+      echo "No runner for .$extension. Add a Bash script at ac-runners/$extension that runs the source path supplied as \$1." >&2
+      exit 1 ;;
+  esac
+fi
+if [[ "$interactive" == true ]]; then
+  "${command[@]}"
+  exit $?
+fi
+printf 'Input (paste/type everything, then press Ctrl+D to run):\n' >&2
+cat > "$run_dir/input"
+set +e
+timeout 10s "${command[@]}" < "$run_dir/input"
+status=$?
+set -e
+if (( status == 124 )); then
+  printf '\nStopped after 10 seconds (possible infinite loop).\n' >&2
+fi
+exit "$status"
